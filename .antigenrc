@@ -1,1 +1,22 @@
-/home/rohan/.antigenrc
+### Antigen config
+# Load oh-my-zsh library
+antigen use oh-my-zsh
+
+## Plugins from oh-my-zsh
+antigen bundle git
+antigen bundle command-not-found
+antigen bundle nvm
+
+## Other plugins
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+antigen bundle supercrabtree/k
+antigen bundle esc/conda-zsh-completion 
+
+## Theme
+antigen theme romkatv/powerlevel10k
+# antigen theme agnoster
+
+## Tell antigen you're done
+antigen apply
