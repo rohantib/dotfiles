@@ -1,0 +1,1 @@
+/home/rohan/.p10k.zsh
