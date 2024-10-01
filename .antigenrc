@@ -9,7 +9,7 @@ antigen bundle nvm
 
 ## Other plugins
 antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle z-shell/F-Sy-H --branch=main
 antigen bundle zsh-users/zsh-completions
 antigen bundle supercrabtree/k
 antigen bundle esc/conda-zsh-completion 
