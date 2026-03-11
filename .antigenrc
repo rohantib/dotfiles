@@ -12,7 +12,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle z-shell/F-Sy-H --branch=main
 antigen bundle zsh-users/zsh-completions
 antigen bundle supercrabtree/k
-antigen bundle esc/conda-zsh-completion 
+antigen bundle 'wfxr/forgit'
 
 ## Theme
 antigen theme romkatv/powerlevel10k
