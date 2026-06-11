@@ -1,0 +1,18 @@
+### Antigen config
+## Load OMZ
+getantidote/use-omz
+
+## OMZ Plugins
+ohmyzsh/ohmyzsh path:lib
+ohmyzsh/ohmyzsh path:plugins/command-not-found
+
+## Other plugins
+zsh-users/zsh-autosuggestions
+#zsh-users/zsh-history-substring-search
+z-shell/F-Sy-H branch:main
+zsh-users/zsh-completions
+supercrabtree/k
+'wfxr/forgit'
+
+## Theme
+romkatv/powerlevel10k
