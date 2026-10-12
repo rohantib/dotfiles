@@ -1,4 +1,3 @@
-### Antigen config
 ## Load OMZ
 getantidote/use-omz
 
