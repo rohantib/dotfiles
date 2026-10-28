@@ -1,0 +1,4 @@
+shell-integration-features = ssh-terminfo
+#theme = Atom One Dark
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
