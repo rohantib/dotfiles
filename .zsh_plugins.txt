@@ -1,17 +1,23 @@
+# Every bundle is pinned to a commit so `antidote update` can't pull in unreviewed code.
+# To bump one: look at the upstream diff since the pinned SHA, then change the SHA here.
+# Entries for the same repo must share one pin (antidote errors otherwise).
+
 ## Load OMZ
-getantidote/use-omz
+getantidote/use-omz pin:317648f75d2643abcd7cf580062a8999b11473d7
 
 ## OMZ Plugins
-ohmyzsh/ohmyzsh path:lib
-ohmyzsh/ohmyzsh path:plugins/command-not-found
+ohmyzsh/ohmyzsh path:lib pin:6010fb6260f359e71d99ba25f05f9215809b3ed2
+ohmyzsh/ohmyzsh path:plugins/command-not-found pin:6010fb6260f359e71d99ba25f05f9215809b3ed2
 
 ## Other plugins
-zsh-users/zsh-autosuggestions
+zsh-users/zsh-autosuggestions pin:85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5
 #zsh-users/zsh-history-substring-search
-z-shell/F-Sy-H branch:main
-zsh-users/zsh-completions
-supercrabtree/k
-'wfxr/forgit'
+# Replaced by zsh-syntax-highlighting below: F-Sy-H runs git while you type.
+#z-shell/F-Sy-H branch:main
+zsh-users/zsh-completions pin:989b23277ab33e8d5e82df6aed936e846db9d8b8
+'wfxr/forgit' pin:8b638f4765cabe41bf3e86196cfcce388daa9266
+# Load late: it wraps every ZLE widget defined before it.
+zsh-users/zsh-syntax-highlighting pin:e6683f20e5c38d3e5447f45845d04ddda75d0f23
 
 ## Theme
-romkatv/powerlevel10k
+romkatv/powerlevel10k pin:433bb250037d1baf479adf06ce78b3a338c574a4
