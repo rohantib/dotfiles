@@ -1,29 +1,29 @@
 #!/bin/bash
 cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
 
-files() {
-  find "$PWD" -name .git -prune -o -type f -path "$PWD/.*" "$@"
+# Directories linked whole, so new files in them are picked up automatically.
+# Everything else is linked file by file.
+DIRS=(.config/rex)
+
+targets() {
+  printf '%s/\n' "${DIRS[@]}"
+  prune=()
+  for dir in "${DIRS[@]}"; do prune+=(-path "./$dir" -prune -o); done
+  find . -name .git -prune -o "${prune[@]}" -type f -path './.*' -print | sed 's|^\./||'
 }
 
-echo "Files to symlink into $HOME:"
-files -exec sh -c '
-  for src do
-    relative="${src#"$PWD"/}"
-    printf "%s → ~/%s\n" "$relative" "$relative"
-  done
-' sh {} +
+echo "Symlinks to create in $HOME:"
+targets | sed 's|.*|~/& → &|'
 
 read -r -p "Continue? [y/N] " answer
 [[ "$answer" = [yY] ]] || exit 0
 
-files -exec sh -c '
-  for src do
-    dest="$HOME/${src#"$PWD"/}"
-    if [ -e "$dest" ] || [ -L "$dest" ]; then
-      printf "Skipping existing: %s\n" "$dest"
-    else
-      mkdir -p "$(dirname "$dest")" && ln -sv "$src" "$dest"
-    fi
-  done
-' sh {} +
-
+targets | while read -r target; do
+  target="${target%/}"
+  dest="$HOME/$target"
+  if [ -e "$dest" ] || [ -L "$dest" ]; then
+    echo "Skipping existing: $dest"
+  else
+    mkdir -p "$(dirname "$dest")" && ln -sv "$PWD/$target" "$dest"
+  fi
+done
