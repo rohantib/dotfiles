@@ -300,16 +300,18 @@ end
 -- The second half of agent_new for a tab. The app doesn't show a tab the
 -- server opens for it, and it only learns of the tab once agent_new has
 -- returned, so agent_new can't ask it to go there. This action runs after
--- that, when the app has the tab, and asks it then.
+-- that, when the app has the tab, and steps the app forward to it. The app
+-- numbers tabs across all its sessions, so a position counted inside one
+-- session doesn't name a tab, and a count of steps from the current tab does.
 rex.action{
   name = "agent_show",
   title = "Agent: Show New Agent Tab",
-  description = "Used by New Agent Like This One. Goes to the tab at a position.",
+  description = "Used by New Agent Like This One. Goes forward a number of tabs.",
   category = "Agents",
-  args = { index = "integer" },
+  args = { steps = "integer" },
   run = function(ctx, args)
-    rex.exec({ "sleep", "0.15" })
-    rex.client.queue("client.tab.goto", { index = args.index })
+    rex.exec({ "sleep", "0.3" })
+    for _ = 1, args.steps do rex.client.queue("client.tab.next") end
   end,
 }
 
@@ -334,12 +336,21 @@ rex.action{
     }
     if err ~= nil then error(err, 0) end
 
+    -- The new window stays where the server puts it. The app picks the wrong
+    -- tab to show after closing one that was moved.
+    local from, to
     local view = rex.session.view{}
     for index, w in ipairs(view and view.windows or {}) do
-      if w.window_id == result.window_id then
-        -- There is no app to ask when the action is run from the CLI.
-        pcall(rex.client.queue, "agent_show", { index = index })
+      if w.window_id == result.window_id then to = index end
+      for _, layer in ipairs(w.layers or {}) do
+        for _, b in ipairs(layer.blocks or {}) do
+          if b.block_id == block_id then from = index end
+        end
       end
+    end
+    if from ~= nil and to ~= nil and to > from then
+      -- There is no app to ask when the action is run from the CLI.
+      pcall(rex.client.queue, "agent_show", { steps = to - from })
     end
     return { block_id = result.block_ids and result.block_ids[1] }
   end,
